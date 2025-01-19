@@ -121,6 +121,7 @@ function shuffleCards() {
             cardContainer.appendChild(card);
         });
     }, 1000);
+    resetSelection();
 }
 
 
