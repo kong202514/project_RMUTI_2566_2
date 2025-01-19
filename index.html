@@ -1,32 +1,373 @@
-<!DOCTYPE html>
-<html lang="en">
+จงแก้ไขโค้ดต่อไปนี้ให้ใช้เฟรมเวิร์ค Bulma
+<html lang="th">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>การ์ดดูดวง</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-size: cover;
+            background: linear-gradient(200deg, #000000, #6A0082, #FFD700);
+            background-size: 400% 400%;
+            animation: gradientAnimation 10s ease infinite;
+            font-family: 'Arial', sans-serif;
+        }
 
-    <!-- css bootstrap 5  -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    
-    <!-- js bootstrap 5  -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous"></script>
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
 
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        select {
+            background-color: #4B0082;
+            color: #FFD700;
+            border: 2px solid #FFD700;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        select:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #6A0082;
+            box-shadow: 0 0 20px rgba(106, 0, 130, 0.8);
+        }
+
+        option {
+            background-color: #000;
+            color: #FFD700;
+            font-weight: bold;
+        }
+
+        .controls {
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+        }
+
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(10px, 1fr));
+            gap: -20px;
+            max-width: 900px;
+            padding: 20px;
+            justify-items: center;
+        }
+
+        .card {
+            position: relative;
+            width: 80px;
+            height: 120px;
+            background-color: #383f3e;
+            border-radius: 12px;
+            color: #ffffff;
+            text-align: center;
+            line-height: 120px;
+            font-weight: bold;
+            border: 2px solid #fff;
+            box-shadow: 0 0 12px rgba(255, 215, 0, 0.3);
+            font-size: 16px;
+            transition: transform 0.5s ease;
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        .card:hover {
+            background-color: #8A2BE2;
+            transform: scale(1.1);
+            z-index: 2;
+        }
+
+        .selected-card-container {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .selected-card {
+            width: 80px;
+            height: 120px;
+            background-color: #FFD700;
+            border-radius: 12px;
+            color: #4B0082;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+            margin: 10px;
+        }
+
+        .prediction {
+            margin-top: 20px;
+            background-color: #4B0082;
+            color: #FFD700;
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 18px;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+
+        .show-prediction-btn {
+            background-color: #FFD700;
+            color: #4B0082;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            transition: transform 0.3s ease;
+        }
+
+        .show-prediction-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+        }
+    </style>
 </head>
+
 <body>
-   
-    <div class="card" style="margin-left: 2%; margin-top: 3%; width: 18rem;">
-        <img src="https://vetmarlborough.co.nz/wp-content/uploads/cat-facts.jpg" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-        
+
+    <div class="controls">
+        <label for="card-limit">เลือกจำนวนไพ่ที่ต้องการ</label>
+        <br>
+        <select id="card-limit">
+            <option value="1">1 ใบ</option>
+            <option value="2">2 ใบ</option>
+            <option value="3">3 ใบ</option>
+            <option value="5">5 ใบ</option>
+            <option value="10">10 ใบ</option>
+        </select>
+        <div id="error-message" class="error"></div>
     </div>
-    
+
+    <div class="card-container" id="card-container">
+        <!-- การ์ดทั้งหมดจะถูกเพิ่มโดย JavaScript -->
+    </div>
+
+    <div class="selected-card-container" id="selected-card-container">
+        <!-- การ์ดที่เลือกจะมาแสดงที่นี่ -->
+    </div>
+
+    <div id="prediction-container" class="prediction">
+        <!-- คำทำนายจะมาแสดงที่นี่ -->
+    </div>
+
+    <div>
+        <button class="show-prediction-btn" id="show-prediction-btn">แสดงคำทำนาย</button>
+        <button class="show-prediction-btn" id="shuffle-btn">สับไพ่</button>
+    </div>
+
+    <script>
+        const cardContainer = document.getElementById("card-container");
+        const selectedCardContainer = document.getElementById("selected-card-container");
+        const predictionContainer = document.getElementById("prediction-container");
+        const showPredictionButton = document.getElementById("show-prediction-btn");
+        const shuffleButton = document.getElementById("shuffle-btn");
+        const cardLimitSelect = document.getElementById("card-limit");
+        const errorMessage = document.getElementById("error-message");
+
+        const totalCards = 78;
+        let cardLimit = parseInt(cardLimitSelect.value);
+        let selectedCards = [];
+
+
+        const cardPredictions = [
+            "The Fool: การเริ่มต้นใหม่, การเสี่ยง, การเดินทาง. ",
+            "The Magician: ทักษะ, ความสามารถ, อำนาจ.",
+            "The High Priestess: สัญชาตญาณ, ความรู้ที่ไม่รู้ตัว, ปัญญา.",
+            "The Empress: การเลี้ยงดู, ความอุดมสมบูรณ์, ความเป็นมารดา.",
+            "The Emperor: อำนาจ, โครงสร้าง, การควบคุม.",
+            "The Hierophant: ประเพณี, การแนะนำทางจิตวิญญาณ, การเชื่อฟัง.",
+            "The Lovers: ความสัมพันธ์, การเลือก, ความรัก.",
+            "The Chariot: พลังใจ, ความมุ่งมั่น, ชัยชนะ.",
+            "Strength: ความกล้าหาญ, ความอดทน, การควบคุมตนเอง.",
+            "The Hermit: การหาความสงบ, การสะท้อน, ปัญญา.",
+            "Wheel of Fortune: ชะตากรรม, วัฏจักร, โชค.",
+            "Justice: ความยุติธรรม, ความจริง, ผลของการกระทำ.",
+            "The Hanged Man: การเสียสละ, การปล่อยวาง, การปล่อยให้เป็นไป.",
+            "Death: การเปลี่ยนแปลง, การสิ้นสุด, การเริ่มต้นใหม่.",
+            "Temperance: ความสมดุล, ความอดทน, การพอดี.",
+            "The Devil: สิ่งยั่วยวน, การเสพติด, วัตถุนิยม.",
+            "The Tower: การเปลี่ยนแปลงที่ฉับพลัน, ความปั่นป่วน, การเปิดเผย.",
+            "The Star: ความหวัง, แรงบันดาลใจ, จิตวิญญาณ.",
+            "The Moon: ความลวง, สัญชาตญาณ, จิตใต้สำนึก.",
+            "The Sun: ความสุข, ความสำเร็จ, พลังชีวิต.",
+            "Judgement: การพิจารณา, การตัดสิน, การตื่นรู้.",
+            "The World: ความสมบูรณ์, การเติมเต็ม, ความเป็นหนึ่งเดียว.",
+            "Ace of Wands: การเริ่มต้นใหม่ในด้านการงาน, ความคิดสร้างสรรค์.",
+            "Two of Wands: การตัดสินใจ, การวางแผน, การมองไปข้างหน้า.",
+            "Three of Wands: การขยายตัว, การประสบความสำเร็จในระยะยาว.",
+            "Four of Wands: ความสำเร็จ, ความมั่นคง, การเฉลิมฉลอง.",
+            "Five of Wands: ความขัดแย้ง, การต่อสู้, ความท้าทาย.",
+            "Six of Wands: ชัยชนะ, ความสำเร็จ, การยอมรับ.",
+            "Seven of Wands: การปกป้อง, การต่อสู้เพื่อความสำเร็จ.",
+            "Eight of Wands: ความรวดเร็ว, การเคลื่อนไหวอย่างรวดเร็ว.",
+            "Nine of Wands: ความพยายาม, ความอดทน, การต่อสู้ที่ยาวนาน.",
+            "Ten of Wands: ภาระ, ความหนักหน่วง, การรับผิดชอบมากเกินไป.",
+            "Page of Wands: การเรียนรู้, ความอยากรู้อยากเห็น, การเริ่มต้น.",
+            "Knight of Wands: การเดินทาง, ความตื่นเต้น, การกระทำ.",
+            "Queen of Wands: ความเชื่อมั่น, ความแข็งแกร่ง, การผู้นำ.",
+            "King of Wands: ความสามารถในการเป็นผู้นำ, ความมั่นใจ.",
+            "Ace of Cups: ความรัก, ความรู้สึกใหม่ๆ, การเปิดใจ.",
+            "Two of Cups: ความสัมพันธ์, ความเชื่อมโยง, ความสมดุล.",
+            "Three of Cups: การเฉลิมฉลอง, ความร่วมมือ, มิตรภาพ.",
+            "Four of Cups: ความเบื่อหน่าย, การมองข้าม, ความรู้สึกที่หายไป.",
+            "Five of Cups: ความเศร้า, ความผิดหวัง, การสูญเสีย.",
+            "Six of Cups: ความทรงจำ, ความสุขในอดีต, ความเรียบง่าย.",
+            "Seven of Cups: ความหลากหลาย, ตัวเลือกมากมาย, ความสับสน.",
+            "Eight of Cups: การเดินจากไป, การแสวงหาความหมาย, การละทิ้ง.",
+            "Nine of Cups: ความพึงพอใจ, ความสมหวัง, ความสำเร็จ.",
+            "Ten of Cups: ความสุขในครอบครัว, ความสมบูรณ์ในชีวิต.",
+            "Page of Cups: ความคิดสร้างสรรค์, การรับรู้, ความอ่อนไหว.",
+            "Knight of Cups: ความโรแมนติก, ความหลงใหล, การแสวงหาความรัก.",
+            "Queen of Cups: ความเมตตา, ความเข้าใจ, การสนับสนุน.",
+            "King of Cups: การควบคุมอารมณ์, ความฉลาดทางอารมณ์.",
+            "Ace of Swords: ความชัดเจน, ความจริง, การเริ่มต้นใหม่ในทางความคิด.",
+            "Two of Swords: การตัดสินใจ, การยืดเยื้อ, ความไม่แน่นอน.",
+            "Three of Swords: ความเจ็บปวด, การสูญเสีย, ความผิดหวัง.",
+            "Four of Swords: การพักผ่อน, การฟื้นตัว, การเยียวยา.",
+            "Five of Swords: การทะเลาะ, ความขัดแย้ง, การเอาชนะ.",
+            "Six of Swords: การเดินทาง, การหาทางออก, การปล่อยวาง.",
+            "Seven of Swords: ความไม่ซื่อสัตย์, การหลบหนี, การวางแผนลับ.",
+            "Eight of Swords: ความติดขัด, การถูกจำกัด, ความรู้สึกติดอยู่.",
+            "Nine of Swords: ความวิตกกังวล, ความกลัว, ความเครียด.",
+            "Ten of Swords: การจบสิ้น, ความเจ็บปวด, ความล้มเหลว.",
+            "Page of Swords: ความอยากรู้อยากเห็น, การเรียนรู้, การสังเกต.",
+            "Knight of Swords: การกระทำที่รวดเร็ว, ความเด็ดขาด, การต่อสู้.",
+            "Queen of Swords: ความชัดเจน, ความเป็นระเบียบ, การตัดสินใจ.",
+            "King of Swords: ความยุติธรรม, การตัดสินใจที่มีเหตุผล, ความเป็นผู้นำ.",
+            "Ace of Pentacles: โอกาสทางการเงิน, ความมั่นคง, การเริ่มต้นใหม่.",
+            "Two of Pentacles: การบริหารเวลา, การจัดการหลายสิ่งหลายอย่าง.",
+            "Three of Pentacles: การทำงานร่วมกัน, ความสำเร็จในการทำงาน.",
+            "Four of Pentacles: ความมั่นคงทางการเงิน, การเก็บรักษาทรัพย์สิน.",
+            "Five of Pentacles: ความยากจน, การขาดแคลน, การสูญเสีย.",
+            "Six of Pentacles: ความเมตตา, การแบ่งปัน, การให้.",
+            "Seven of Pentacles: การวางแผนระยะยาว, ความอดทน, การรอคอย.",
+            "Eight of Pentacles: การทำงานหนัก, การพัฒนาทักษะ, การเรียนรู้.",
+            "Nine of Pentacles: ความสำเร็จ, ความพึงพอใจ, ความมั่งคั่ง.",
+            "Ten of Pentacles: ความมั่นคงทางการเงิน, การสร้างมรดก, ครอบครัว.",
+            "Page of Pentacles: การเรียนรู้, การศึกษา, โอกาสใหม่.",
+            "Knight of Pentacles: ความพยายาม, ความรับผิดชอบ, ความละเอียดรอบคอบ.",
+            "Queen of Pentacles: ความมั่นคง, การดูแล, ความเอาใจใส่.",
+            "King of Pentacles: ความมั่งคั่ง, ความสำเร็จ, ความเป็นผู้นำในด้านการเงิน."
+        ];
+
+        // สร้างการ์ดทั้งหมด
+        for (let i = 0; i < totalCards; i++) {
+            const card = document.createElement("div");
+            card.classList.add("card");
+            card.setAttribute("data-card-id", i);
+
+            card.addEventListener("click", function () {
+                selectCard(i, card);
+            });
+            cardContainer.appendChild(card);
+        }
+
+        // สับการ์ด
+        function shuffleCards() {
+            const cards = Array.from(cardContainer.children);
+            cards.forEach(card => {
+                card.classList.add('animate');
+                card.style.opacity = '0'; // ทำให้การ์ดโปร่งใสขณะสับ
+            });
+
+            setTimeout(() => {
+                cards.forEach(card => {
+                    card.classList.remove('animate');
+                    card.style.opacity = '1'; // ทำให้การ์ดมองเห็นหลังการสับ
+                });
+            }, 1000); // ใช้เวลา 1 วินาทีในการสับ
+        }
+
+        // ฟังก์ชันเลือกการ์ด
+        function selectCard(cardId, cardElement) {
+            if (selectedCards.length >= cardLimit) {
+                errorMessage.textContent = "คุณเลือกไพ่ครบตามจำนวนที่กำหนดแล้ว!";
+                return;
+            }
+
+            selectedCards.push(cardId);
+
+            const selectedCard = document.createElement("div");
+            selectedCard.classList.add("selected-card");
+            // selectedCard.textContent = `การ์ด ${cardId + 1}`;
+
+            selectedCardContainer.appendChild(selectedCard);
+            cardElement.style.display = "none";
+            errorMessage.textContent = ""; // ล้างข้อความผิดพลาด
+        }
+
+        // แสดงคำทำนาย
+        function showPrediction() {
+            if (selectedCards.length > 0) {
+                let predictions = selectedCards.map(cardId => cardPredictions[cardId]);
+                predictionContainer.innerHTML = predictions.join(" <br> ");
+            } else {
+                predictionContainer.textContent = "กรุณาเลือกการ์ดก่อน!";
+            }
+        }
+
+        // รีเซ็ตการเลือก
+        function resetSelection() {
+            selectedCards = [];
+            selectedCardContainer.innerHTML = "";
+            predictionContainer.textContent = "";
+            errorMessage.textContent = "";
+
+            Array.from(cardContainer.children).forEach(card => {
+                card.style.display = "block";
+            });
+        }
+
+        // ตั้งค่าปุ่ม
+        showPredictionButton.addEventListener("click", showPrediction);
+        shuffleButton.addEventListener("click", shuffleCards);
+
+        // ตั้งค่าการเปลี่ยนแปลงจำนวนไพ่ที่เลือกได้
+        cardLimitSelect.addEventListener("change", function () {
+            cardLimit = parseInt(this.value);
+            resetSelection();
+        });
+    </script>
 
 </body>
+
 </html>
