@@ -92,7 +92,7 @@ const card_Predictions = [
     "ความมั่งคั่ง, ความสำเร็จ, ความเป็นผู้นำในด้านการเงิน."
 ];
 
-// สร้างการ์ดทั้งหมด
+
 for (let i = 0; i < totalCards; i++) {
     const card = document.createElement("div");
     card.classList.add("card");
@@ -104,38 +104,38 @@ for (let i = 0; i < totalCards; i++) {
     cardContainer.appendChild(card);
 }
 
-// ฟังก์ชันสับการ์ด
-// ฟังก์ชันสับการ์ด
+
+
 function shuffleCards() {
     const cards = Array.from(cardContainer.children);
-    let shuffledCards = Array.from(cards);  // ทำสำเนาของการ์ด
+    let shuffledCards = Array.from(cards);  
 
-    // เพิ่มอนิเมชั่นหมุน 3D และหายไปให้กับการ์ด
+    
     cards.forEach(card => {
-        card.classList.add('animate');  // เพิ่มอนิเมชั่นหมุน 3D และหายไป
+        card.classList.add('animate');  
     });
 
-    // สลับตำแหน่งการ์ด
+    
     for (let i = shuffledCards.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));  // เลือกตำแหน่งสุ่ม
-        [shuffledCards[i], shuffledCards[j]] = [shuffledCards[j], shuffledCards[i]];  // สลับตำแหน่ง
+        const j = Math.floor(Math.random() * (i + 1));  
+        [shuffledCards[i], shuffledCards[j]] = [shuffledCards[j], shuffledCards[i]];  
     }
 
-    // ลบการ์ดทั้งหมดจาก container
+    
     cardContainer.innerHTML = '';
 
-    // หลังจาก 1 วินาที (เวลาของอนิเมชั่น) ให้เพิ่มการ์ดที่ถูกสับ
+    
     setTimeout(() => {
         shuffledCards.forEach(card => {
-            card.classList.remove('animate'); // ลบอนิเมชั่นหมุนและหายไป
-            card.classList.add('reappear');   // เพิ่มอนิเมชั่นกลับมาใหม่
-            cardContainer.appendChild(card);  // เพิ่มการ์ดกลับตามลำดับที่สุ่ม
+            card.classList.remove('animate'); 
+            card.classList.add('reappear');   
+            cardContainer.appendChild(card);  
         });
-    }, 1000); // เวลาที่จะให้การ์ดกลับมาหลังจาก 1 วินาที
+    }, 1000); 
 }
 
 
-// ฟังก์ชันเลือกการ์ด
+
 function selectCard(cardId, cardElement) {
     if (selectedCards.length >= cardLimit) {
         Message_error.textContent = "คุณเลือกไพ่ครบตามจำนวนที่กำหนดแล้ว!";
@@ -146,17 +146,17 @@ function selectCard(cardId, cardElement) {
 
     const selectedCard = document.createElement("div");
     selectedCard.classList.add("selected-card");
-    // selectedCard.textContent = `การ์ด ${cardId + 1}`;
+    
 
     selectedCardContainer.appendChild(selectedCard);
     cardElement.style.display = "none";
-    Message_error.textContent = ""; // ล้างข้อความผิดพลาด
+    Message_error.textContent = ""; 
 }
 
 
 
 
-// แสดงคำทำนาย
+
 function showPrediction() {
     if (selectedCards.length > 0) {
         let predictions = selectedCards.map(cardId => card_Predictions[cardId]);
@@ -166,7 +166,7 @@ function showPrediction() {
     }
 }
 
-// รีเซ็ตการเลือก
+
 function resetSelection() {
     selectedCards = [];
     selectedCardContainer.innerHTML = "";
@@ -178,11 +178,11 @@ function resetSelection() {
     });
 }
 
-// ตั้งค่าปุ่ม
+
 showPredictionButton.addEventListener("click", showPrediction);
 shuffleButton.addEventListener("click", shuffleCards);
 
-// ตั้งค่าการเปลี่ยนแปลงจำนวนไพ่ที่เลือกได้
+
 cardLimitSelect.addEventListener("change", function () {
     cardLimit = parseInt(this.value);
     resetSelection();
