@@ -1,0 +1,208 @@
+ body {
+     margin: 0;
+     padding: 0;
+     height: 100%;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     background-size: cover;
+     background: linear-gradient(200deg, #000000, #6A0082, #FFD700);
+     background-size: 400% 400%;
+     animation: gradientAnimation 10s ease infinite;
+     font-family: 'Arial', sans-serif;
+ }
+
+ @keyframes gradientAnimation {
+     0% {
+         background-position: 0% 50%;
+     }
+
+     50% {
+         background-position: 100% 50%;
+     }
+
+     100% {
+         background-position: 0% 50%;
+     }
+ }
+
+ select {
+     background-color: #4B0082;
+     color: #FFD700;
+     border: 2px solid #FFD700;
+     border-radius: 8px;
+     padding: 10px 20px;
+     font-size: 16px;
+     font-weight: bold;
+     box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+     transition: transform 0.3s ease, box-shadow 0.3s ease;
+     cursor: pointer;
+ }
+
+ select:hover {
+     transform: scale(1.1);
+     box-shadow: 0 0 15px rgba(0, 174, 255, 0.8);
+ }
+
+ select:focus {
+     outline: none;
+     border-color: #6A0082;
+     box-shadow: 0 0 20px rgba(106, 0, 130, 0.8);
+ }
+
+ option {
+     background-color: #000;
+     color: #FFD700;
+     font-weight: bold;
+ }
+
+ .controls {
+     margin: 20px;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     color: white;
+ }
+
+ .card-container {
+     display: grid;
+     grid-template-columns: repeat(auto-fill, minmax(10px, 1fr));
+     gap: -20px;
+     max-width: 900px;
+     padding: 20px;
+     justify-items: center;
+ }
+
+ .card {
+     position: relative;
+     width: 80px;
+     height: 120px;
+     background-color: #383f3e;
+     border-radius: 12px;
+     color: #ffffff;
+     text-align: center;
+     line-height: 120px;
+     font-weight: bold;
+     border: 2px solid #fff;
+     box-shadow: 0 0 12px rgba(255, 215, 0, 0.3);
+     font-size: 16px;
+     transition: transform 0.5s ease;
+     cursor: pointer;
+     z-index: 1;
+ }
+
+ .card:hover {
+     background-color: #8A2BE2;
+     transform: scale(1.1);
+     z-index: 2;
+ }
+
+ .selected-card-container {
+     margin-top: 20px;
+     display: flex;
+     flex-wrap: wrap;
+     justify-content: center;
+ }
+
+ .selected-card {
+     width: 80px;
+     height: 120px;
+     background-color: #e63ebc;
+     border-radius: 12px;
+     color: #4B0082;
+     font-weight: bold;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     font-size: 18px;
+     box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+     margin: 10px;
+ }
+
+ .prediction {
+     margin-top: 20px;
+     background-color: #4B0082;
+     color: #FFD700;
+     padding: 20px;
+     border-radius: 8px;
+     font-size: 18px;
+     box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+     max-width: 800px;
+     text-align: center;
+ }
+
+ .error {
+     color: red;
+     margin-top: 10px;
+ }
+
+ .show-prediction-btn {
+     background-color: #FFD700;
+     color: #4B0082;
+     font-weight: bold;
+     padding: 10px 20px;
+     border-radius: 8px;
+     cursor: pointer;
+     box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+     transition: transform 0.3s ease;
+ }
+
+ .show-prediction-btn:hover {
+     transform: scale(1.1);
+     box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+ }
+
+ .card.animate {
+     animation: spin3d 1s ease-in-out forwards, fadeOut 1s ease-out forwards;
+ }
+
+ @keyframes spin3d {
+     0% {
+         transform: rotateY(0deg);
+         opacity: 1;
+     }
+
+     50% {
+         transform: rotateY(180deg);
+         opacity: 0.5;
+     }
+
+     100% {
+         transform: rotateY(360deg);
+         opacity: 0;
+     }
+ }
+
+ @keyframes fadeOut {
+     0% {
+         opacity: 1;
+     }
+
+     100% {
+         opacity: 0;
+     }
+ }
+
+ .card.reappear {
+     animation: fadeIn 1s ease-out forwards, slideIn 1s ease-out forwards;
+ }
+
+ @keyframes fadeIn {
+     0% {
+         opacity: 0;
+     }
+
+     100% {
+         opacity: 1;
+     }
+ }
+
+ @keyframes slideIn {
+     0% {
+         transform: translateY(50px);
+     }
+
+     100% {
+         transform: translateY(0);
+     }
+ }
