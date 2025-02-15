@@ -121,7 +121,8 @@
 
  .prediction {
      margin-top: 20px;
-     background-color: #4B0082;
+     /* background-color: #e48731; */
+    background: linear-gradient(200deg,   #85139e, #ffe02f);
      color: #FFD700;
      padding: 20px;
      border-radius: 8px;
@@ -129,6 +130,7 @@
      box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
      max-width: 800px;
      text-align: center;
+     color: #000    ;
  }
 
  .error {
